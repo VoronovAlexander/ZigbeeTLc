@@ -240,6 +240,67 @@ void sensorDevice_zclReportCmd(u16 clusterId, zclReportCmd_t *pReportCmd)
 }
 #endif	/* ZCL_REPORT */
 
+#ifdef ZCL_ON_OFF
+
+void move(int width)
+{
+	gpio_set_func(GPIO_PC4, AS_GPIO);
+	gpio_set_input_en(GPIO_PC4, 0);
+	gpio_set_output_en(GPIO_PC4, 1);
+	for (int i = 0; i <= 250; i++)
+	{ // 544–2400 мкс
+		gpio_write(GPIO_PC4, 1);
+		sleep_us(width);
+		gpio_write(GPIO_PC4, 0);
+		sleep_ms(20);
+	}
+	gpio_set_output_en(GPIO_PC4, 0);
+}
+
+status_t sensorDevice_onOffCb(zclIncomingAddrInfo_t *pAddrInfo, u8 cmdId, void *cmdPayload)
+{
+	g_zcl_onOffAttr.state = g_zcl_onOffAttr.state == 0 ? 1 : 0;
+
+	zcl_onOffState_save();
+	// saveOnOff();
+
+	move(g_zcl_onOffAttr.state ? 544 : 2400);
+
+	// if(pAddrInfo->dstEp == SAMPLE_LIGHT_ENDPOINT){
+	// 	switch(cmdId){
+	// 		case ZCL_CMD_ONOFF_ON:
+
+	// 			break;
+	// 		case ZCL_CMD_ONOFF_OFF:
+	// 			break;
+	// 		// case ZCL_CMD_ONOFF_TOGGLE:
+	// 		// 	sampleLight_onoff(cmdId);
+	// 		// 	break;
+	// 		// case ZCL_CMD_OFF_WITH_EFFECT:
+	// 		// 	if(pOnOff->globalSceneControl == TRUE){
+	// 		// 		/* TODO: store its settings in its global scene */
+	// 		// 		pOnOff->globalSceneControl = FALSE;
+	// 		// 	}
+	// 		// 	sampleLight_onoff_offWithEffectProcess((zcl_onoff_offWithEffectCmd_t *)cmdPayload);
+	// 		// 	break;
+	// 		// case ZCL_CMD_ON_WITH_RECALL_GLOBAL_SCENE:
+	// 		// 	if(pOnOff->globalSceneControl == FALSE){
+	// 		// 		sampleLight_onoff_onWithRecallGlobalSceneProcess();
+	// 		// 		pOnOff->globalSceneControl = TRUE;
+	// 		// 	}
+	// 		// 	break;
+	// 		// case ZCL_CMD_ON_WITH_TIMED_OFF:
+	// 		// 	sampleLight_onoff_onWithTimedOffProcess((zcl_onoff_onWithTimeOffCmd_t *)cmdPayload);
+	// 		// 	break;
+	// 		default:
+	// 			break;
+	// 	}
+	// }
+
+	return ZCL_STA_SUCCESS;
+}
+#endif
+
 #ifdef ZCL_BASIC
 /*********************************************************************
  * @fn      sensorDevice_basicCb

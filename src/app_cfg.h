@@ -139,6 +139,7 @@ extern "C" {
 #define ZCL_POLL_CTRL_SUPPORT						1
 #define ZCL_GROUP_SUPPORT							0
 #define ZCL_OTA_SUPPORT								1
+#define ZCL_ON_OFF_SUPPORT                          1
 #define TOUCHLINK_SUPPORT							0
 #define FIND_AND_BIND_SUPPORT						0
 #if TOUCHLINK_SUPPORT
@@ -156,6 +157,8 @@ extern "C" {
 #define NV_ITEM_ZCL_THERMOSTAT_UI_CFG       (NV_ITEM_APP_GP_TRANS_TABLE + 1)    // see sdk/proj/drivers/drv_nv.h
 #endif
 
+#define ZCL_ON_OFF
+#define NV_ITEM_ZCL_ONOFF_STATE             NV_ITEM_ZCL_ON_OFF
 
 /**********************************************************************
  * Stack configuration

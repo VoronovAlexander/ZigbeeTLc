@@ -202,6 +202,11 @@ void user_app_init(void)
 #if ZCL_THERMOSTAT_UI_CFG_SUPPORT
 	zcl_thermostatConfig_restore();
 #endif
+
+#if ZCL_ON_OFF_SUPPORT
+	zcl_onOffState_restore();
+#endif
+
 	zcl_reportingTabInit();
 
 	/* Register ZCL specific cluster information */
