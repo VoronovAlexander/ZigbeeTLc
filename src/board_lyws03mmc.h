@@ -50,8 +50,8 @@ extern "C" {
 #define USE_SENSOR_SHTC3		1
 #define USE_SENSOR_SHT30		0
 
-#define SHL_ADC_VBAT		C5P // see in adc.h ADC_InputPchTypeDef
-#define GPIO_VBAT			GPIO_PC5 // missing pin on case TLSR8251F512ET24
+#define SHL_ADC_VBAT		C4P // see in adc.h ADC_InputPchTypeDef // 17 - P9 - PWM2/UART_CTS/PWMO_N/ sar_aio<8>/PC<4>
+#define GPIO_VBAT			GPIO_PC4 // missing pin on case TLSR8251F512ET24
 #define PC5_INPUT_ENABLE	0
 #define PC5_DATA_OUT		1
 #define PC5_OUTPUT_ENABLE	1

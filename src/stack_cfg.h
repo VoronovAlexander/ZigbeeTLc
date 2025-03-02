@@ -29,7 +29,7 @@
  *  @brief  Working channel
  *          Valid value: 11 ~ 26
  */
-#define DEFAULT_CHANNEL                         11
+#define DEFAULT_CHANNEL                         25
 
 /**
  *  @brief  NVRAM
@@ -49,30 +49,30 @@
  *  @brief  ZCL: MAX number of cluster list, in cluster number add  + out cluster number
  *
  */
-#define	ZCL_CLUSTER_NUM_MAX						12
+#define	ZCL_CLUSTER_NUM_MAX						16
 
 /**
  *  @brief  ZCL: maximum number for zcl reporting table
  *
  */
-#define ZCL_REPORTING_TABLE_NUM					8
+#define ZCL_REPORTING_TABLE_NUM					10
 
 /**
  *  @brief  ZCL: maximum number for zcl scene table
  *
  */
-#define	ZCL_SCENE_TABLE_NUM						8
+#define	ZCL_SCENE_TABLE_NUM						10
 
 /**
  *  @brief  APS: MAX number of groups size in the group table
  *          In each group entry, there is 8 endpoints existed.
  */
-#define APS_GROUP_TABLE_NUM                   	8
+#define APS_GROUP_TABLE_NUM                   	10
 
 /**
  *  @brief  APS: MAX number of binding table size
  */
-#define APS_BINDING_TABLE_NUM                 	4
+#define APS_BINDING_TABLE_NUM                 	6
 
 
 /**********************************************************************

@@ -67,7 +67,7 @@
 //#define BOARD_THB3				26 // https://github.com/pvvx/THB2
 // #define BOARD_ZTH01   				27 // ZigBee ZTH01
 // #define BOARD_ZTH02   				28 // ZigBee ZTH02
-//#define BOARD_PLM1 				29  // Tuya BLE Plant monitor ECF-SGS01-A rev1.3 (BT3L Tuya module)  (not yet published at the moment)
+//#define BOARD_PLM1 				30  // Tuya BLE Plant monitor ECF-SGS01-A rev1.3 (BT3L Tuya module)  (not yet published at the mom3n0)
 // #define BOARD_ZTH03   				30 // ZigBee TH03
 // #define BOARD_LKTMZL02				31 // ZigBee LKTMZL02 LCD
 //#define BOARD_KEY2 				32 // KEY2(iSearching) https://github.com/pvvx/THB2
@@ -107,10 +107,10 @@
 		#define CHIP_TYPE		TLSR_B91
 #endif
 
-#define APP_RELEASE				0x01	//BCD app release "0.1"
-#define APP_BUILD				0x24	//BCD app build "2.4"
 #define STACK_RELEASE			0x30	//BCD stack release 3.0
 #define STACK_BUILD				0x01	//BCD stack build 01
+#define APP_RELEASE				0x01	//BCD app release "0.1"
+#define APP_BUILD				0x35	//BCD app build "3.5"
 
 /*********************************************************************************************
  * During OTA upgrade, the upgraded device will check the rules of the following three fields.

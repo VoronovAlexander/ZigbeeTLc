@@ -244,35 +244,60 @@ void sensorDevice_zclReportCmd(u16 clusterId, zclReportCmd_t *pReportCmd)
 
 void move(int width)
 {
-	gpio_set_func(GPIO_PC4, AS_GPIO);
-	gpio_set_input_en(GPIO_PC4, 0);
-	gpio_set_output_en(GPIO_PC4, 1);
-	for (int i = 0; i <= 250; i++)
+	gpio_set_func(GPIO_PD7, AS_GPIO); // 1 - P7 - SP|_CK/125_BCK/7816_TRX(UART_TX)/PD<7>
+	gpio_set_input_en(GPIO_PD7, 0);
+	gpio_set_output_en(GPIO_PD7, 1);
+	gpio_write(GPIO_PD7, 1);
+
+	gpio_set_func(GPIO_PA6, AS_GPIO); // 3 - P8 - DP(SWS)/PA<6>
+	gpio_set_input_en(GPIO_PA6, 0);
+	gpio_set_output_en(GPIO_PA6, 1);
+
+	for (int i = 0; i <= 150; i++)
 	{ // 544–2400 мкс
-		gpio_write(GPIO_PC4, 1);
+		gpio_write(GPIO_PA6, 1);
 		sleep_us(width);
-		gpio_write(GPIO_PC4, 0);
-		sleep_ms(20);
+		gpio_write(GPIO_PA6, 0);
+		sleep_us(20000 - width);
 	}
-	gpio_set_output_en(GPIO_PC4, 0);
+	gpio_set_output_en(GPIO_PA6, 0);
+
+	gpio_write(GPIO_PD7, 0);
+	// gpio_set_output_en(GPIO_PD7, 0);
+}
+
+void run(void *data) {
+	move(g_zcl_onOffAttr.state == 1 ? 544 : 2400);
+}
+
+int schedulerRun(void *data)
+{
+	TL_SCHEDULE_TASK(run, NULL);
+	TL_ZB_TIMER_CANCEL(schedulerRun);
 }
 
 status_t sensorDevice_onOffCb(zclIncomingAddrInfo_t *pAddrInfo, u8 cmdId, void *cmdPayload)
 {
-	g_zcl_onOffAttr.state = g_zcl_onOffAttr.state == 0 ? 1 : 0;
-
-	zcl_onOffState_save();
-	// saveOnOff();
-
-	move(g_zcl_onOffAttr.state ? 544 : 2400);
-
 	// if(pAddrInfo->dstEp == SAMPLE_LIGHT_ENDPOINT){
-	// 	switch(cmdId){
-	// 		case ZCL_CMD_ONOFF_ON:
+	switch(cmdId){
+		case ZCL_CMD_ONOFF_ON:
+			if (g_zcl_onOffAttr.state != 1) {
+				g_zcl_onOffAttr.state = 1;
+				zcl_onOffState_save();
+				// TL_ZB_TIMER_SCHEDULE(schedulerRun, NULL, 1000);
+				move(544);
+			}
 
-	// 			break;
-	// 		case ZCL_CMD_ONOFF_OFF:
-	// 			break;
+			break;
+		case ZCL_CMD_ONOFF_OFF:
+			if (g_zcl_onOffAttr.state != 0) {
+				g_zcl_onOffAttr.state = 0;
+				zcl_onOffState_save();
+				// TL_ZB_TIMER_SCHEDULE(schedulerRun, NULL, 1000);
+				move(2400);
+			}
+			
+			break;
 	// 		// case ZCL_CMD_ONOFF_TOGGLE:
 	// 		// 	sampleLight_onoff(cmdId);
 	// 		// 	break;
@@ -292,9 +317,9 @@ status_t sensorDevice_onOffCb(zclIncomingAddrInfo_t *pAddrInfo, u8 cmdId, void *
 	// 		// case ZCL_CMD_ON_WITH_TIMED_OFF:
 	// 		// 	sampleLight_onoff_onWithTimedOffProcess((zcl_onoff_onWithTimeOffCmd_t *)cmdPayload);
 	// 		// 	break;
-	// 		default:
-	// 			break;
-	// 	}
+			default:
+				break;
+		}
 	// }
 
 	return ZCL_STA_SUCCESS;

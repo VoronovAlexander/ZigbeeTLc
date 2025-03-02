@@ -13,8 +13,8 @@
  */
 #if BOARD == BOARD_LYWSD03MMC
 
-#define ZCL_BASIC_MFG_NAME     {6,'X','X','X','X','X','X'}
-#define ZCL_BASIC_MODEL_ID	   {12,'X','X','X','X','X','Y','Y','Y','Y','Y','Y','Y'}
+#define ZCL_BASIC_MFG_NAME     {6,'X','i','a','o','m','i'}
+#define ZCL_BASIC_MODEL_ID	   {12,'L','Y','W','S','D','0','3','M','M','C','-','0'}
 
 #elif BOARD == BOARD_CGDK2
 
