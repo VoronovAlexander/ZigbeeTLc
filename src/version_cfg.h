@@ -110,7 +110,7 @@
 #define STACK_RELEASE			0x30	//BCD stack release 3.0
 #define STACK_BUILD				0x01	//BCD stack build 01
 #define APP_RELEASE				0x01	//BCD app release "0.1"
-#define APP_BUILD				0x35	//BCD app build "3.5"
+#define APP_BUILD				0x39	//BCD app build "3.9"
 
 /*********************************************************************************************
  * During OTA upgrade, the upgraded device will check the rules of the following three fields.
