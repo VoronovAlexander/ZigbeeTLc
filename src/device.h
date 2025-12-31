@@ -59,6 +59,10 @@ typedef struct{
 	u8	deviceEnable;
 }zcl_basicAttr_t;
 
+typedef struct{
+	u8 state;
+}zcl_onOffAttr_t;
+
 /**
  *  @brief Defined for identify cluster attributes
  */
@@ -150,6 +154,7 @@ extern const zcl_specClusterInfo_t g_sensorDeviceClusterList[];
 extern const af_simple_descriptor_t sensorDevice_simpleDesc;
 
 /* Attributes */
+extern zcl_onOffAttr_t g_zcl_onOffAttr;
 extern zcl_basicAttr_t g_zcl_basicAttrs;
 extern zcl_identifyAttr_t g_zcl_identifyAttrs;
 extern zcl_powerAttr_t g_zcl_powerAttrs;
@@ -183,6 +188,7 @@ extern scomfort_t cmf;
 
 void sensorDevice_zclProcessIncomingMsg(zclIncoming_t *pInHdlrMsg);
 
+status_t sensorDevice_onOffCb(zclIncomingAddrInfo_t *pAddrInfo, u8 cmdId, void *cmdPayload);
 status_t sensorDevice_basicCb(zclIncomingAddrInfo_t *pAddrInfo, u8 cmdId, void *cmdPayload);
 status_t sensorDevice_identifyCb(zclIncomingAddrInfo_t *pAddrInfo, u8 cmdId, void *cmdPayload);
 status_t sensorDevice_iasZoneCb(zclIncomingAddrInfo_t *pAddrInfo, u8 cmdId, void *cmdPayload);
@@ -197,6 +203,9 @@ void sensorDevice_otaProcessMsgHandler(u8 evt, u8 status);
 
 nv_sts_t zcl_thermostatConfig_save(void);
 nv_sts_t zcl_thermostatConfig_restore(void);
+
+nv_sts_t zcl_onOffState_save(void);
+nv_sts_t zcl_onOffState_restore(void);
 
 void read_dev_name(void);
 void save_dev_name(void);

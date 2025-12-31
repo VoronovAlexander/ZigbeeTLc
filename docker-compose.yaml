@@ -1,0 +1,7 @@
+services:
+  gcc:
+    image: skaldo/telink-sdk:0.1
+    volumes:
+      - ./:/app
+    working_dir: /app
+    command: /bin/sh -c "make clean && make"

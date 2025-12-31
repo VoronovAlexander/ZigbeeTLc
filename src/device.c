@@ -122,6 +122,7 @@ u8 is_comfort(s16 t, u16 h) {
 }
 #endif
 
+int tact = 0;
 
 void read_sensor_and_save(void) {
 	if (!read_sensor()) {
@@ -145,27 +146,45 @@ void read_sensor_and_save(void) {
     	show_big_number_x10((sensor_ht.temp  + 5) / 10, 1);
 #endif // ZCL_THERMOSTAT_UI_CFG
 
-#if BOARD == BOARD_CGDK2
-    	show_small_number_x10((sensor_ht.humi + 5)/ 10, 1);
-    	show_battery_symbol(true);
-#else // BOARD != BOARD_CGDK2
-    	show_small_number((sensor_ht.humi + 50) / 100, 1);
-#if BOARD == BOARD_LKTMZL02
-    	show_battery_symbol(true);
-#else
-    	show_battery_symbol(g_zcl_powerAttrs.batteryPercentage < 10);
-#endif
-#endif // BOARD == BOARD_CGDK2
-#if SHOW_SMILEY
-#ifdef ZCL_THERMOSTAT_UI_CFG
-    	if(g_zcl_thermostatUICfgAttrs.showSmiley == 0)
-    		show_smiley(is_comfort(sensor_ht.temp, sensor_ht.humi) ? 1 : 2);
-    	else
-    		show_smiley(0);
-#else
-    	show_smiley(is_comfort(sensor_ht.temp, sensor_ht.humi) ? 1 : 2);
-#endif // ZCL_THERMOSTAT_UI_CFG
-#endif // SHOW_SMILEY
+		if (tact == 0) {
+			tact = 1;
+			#if BOARD == BOARD_CGDK2
+					show_small_number_x10((sensor_ht.humi + 5)/ 10, 1);
+					show_battery_symbol(true);
+			#else // BOARD != BOARD_CGDK2
+					show_small_number((sensor_ht.humi + 50) / 100, 1);
+			#if BOARD == BOARD_LKTMZL02
+					show_battery_symbol(true);
+			#else
+					show_battery_symbol(g_zcl_powerAttrs.batteryPercentage < 10);
+			#endif
+			#endif // BOARD == BOARD_CGDK2
+			#if SHOW_SMILEY
+			#ifdef ZCL_THERMOSTAT_UI_CFG
+					if(g_zcl_thermostatUICfgAttrs.showSmiley == 0)
+						show_smiley(is_comfort(sensor_ht.temp, sensor_ht.humi) ? 1 : 2);
+					else
+						show_smiley(0);
+			#else
+					show_smiley(is_comfort(sensor_ht.temp, sensor_ht.humi) ? 1 : 2);
+			#endif // ZCL_THERMOSTAT_UI_CFG
+			#endif // SHOW_SMILEY
+
+		} else {
+			tact = 0;
+			int percentage = g_zcl_powerAttrs.batteryPercentage / 2;
+			if (percentage < 1) {
+				percentage = 1;
+			}
+			if (percentage > 99) {
+				percentage = 99;
+			}
+			show_small_number(percentage, 1);
+			show_battery_symbol(true);
+			show_smiley(0);
+		}
+
+
     	update_lcd();
     }
 #endif // USE_DISPLAY
@@ -202,6 +221,11 @@ void user_app_init(void)
 #if ZCL_THERMOSTAT_UI_CFG_SUPPORT
 	zcl_thermostatConfig_restore();
 #endif
+
+#if ZCL_ON_OFF_SUPPORT
+	zcl_onOffState_restore();
+#endif
+
 	zcl_reportingTabInit();
 
 	/* Register ZCL specific cluster information */

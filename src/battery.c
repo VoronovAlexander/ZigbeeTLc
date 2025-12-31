@@ -46,12 +46,12 @@ void battery_detect(void)
 	adc_channel_init(SHL_ADC_VBAT);
 	measured_battery.mv = get_adc_mv();
 	if(measured_battery.mv < BATTERY_SAFETY_THRESHOLD){
-#if PM_ENABLE
-		sensor_go_sleep();
-		drv_pm_sleep(PM_SLEEP_MODE_DEEPSLEEP, PM_WAKEUP_SRC_TIMER, 60*1000);
-#else
-		SYSTEM_RESET();
-#endif
+// #if PM_ENABLE
+// 		sensor_go_sleep();
+// 		drv_pm_sleep(PM_SLEEP_MODE_DEEPSLEEP, PM_WAKEUP_SRC_TIMER, 60*1000);
+// #else
+// 		SYSTEM_RESET();
+// #endif
 	}
 	measured_battery.average_mv = battery_average(measured_battery.mv);
 	measured_battery.level = (measured_battery.average_mv - BATTERY_SAFETY_THRESHOLD)/4;

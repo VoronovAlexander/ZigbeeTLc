@@ -26,6 +26,8 @@
 #include "zb_common.h"
 #include "ext_ota.h"
 #include "chip_8258/register.h"
+#include "chip_8258/pwm.h"
+#include "chip_8258/gpio.h"
 
 extern void user_init(bool isRetention);
 

@@ -14,7 +14,7 @@
 #if BOARD == BOARD_LYWSD03MMC
 
 #define ZCL_BASIC_MFG_NAME     {6,'X','i','a','o','m','i'}
-#define ZCL_BASIC_MODEL_ID	   {12,'L','Y','W','S','D','0','3','M','M','C','-','z'}
+#define ZCL_BASIC_MODEL_ID	   {12,'L','Y','W','S','D','0','3','M','M','C','-','0'}
 
 #elif BOARD == BOARD_CGDK2
 
@@ -119,6 +119,9 @@ const u16 sensorDevice_inClusterList[] =
 #endif
 #ifdef ZCL_IAS_ZONE
 	ZCL_CLUSTER_SS_IAS_ZONE,
+#endif
+#ifdef ZCL_ON_OFF
+	ZCL_CLUSTER_GEN_ON_OFF,
 #endif
 };
 
@@ -386,11 +389,27 @@ const zclAttrInfo_t pollCtrl_attrTbl[] =
 #define	ZCL_POLLCTRL_ATTR_NUM		 sizeof(pollCtrl_attrTbl) / sizeof(zclAttrInfo_t)
 #endif
 
+#ifdef ZCL_ON_OFF
+zcl_onOffAttr_t g_zcl_onOffAttr;
+
+zcl_onOffAttr_t g_zcl_onOffAttrDefault = {
+	.state = 0,
+};
+
+const zclAttrInfo_t onOff_attrTbl[] = {
+    { ZCL_ATTRID_ONOFF, ZCL_DATA_TYPE_BOOLEAN, ACCESS_CONTROL_READ | ACCESS_CONTROL_WRITE, (u8*)&g_zcl_onOffAttr.state },
+};
+
+#define ZCL_ON_OFF_NUM           sizeof(onOff_attrTbl) / sizeof(zcl_onOffAttr_t)
+#endif
 /**
  *  @brief Definition for simple contact sensor ZCL specific cluster
  */
 const zcl_specClusterInfo_t g_sensorDeviceClusterList[] =
 {
+#ifdef ZCL_ON_OFF
+	{ZCL_CLUSTER_GEN_ON_OFF,        MANUFACTURER_CODE_NONE, ZCL_ON_OFF_NUM,         onOff_attrTbl,      zcl_onOff_register,	    sensorDevice_onOffCb},
+#endif
 	{ZCL_CLUSTER_GEN_BASIC,			MANUFACTURER_CODE_NONE, ZCL_BASIC_ATTR_NUM, 	basic_attrTbl,  	zcl_basic_register,		sensorDevice_basicCb},
 #ifdef ZCL_POWER_CFG
 	{ZCL_CLUSTER_GEN_POWER_CFG,		MANUFACTURER_CODE_NONE,	ZCL_POWER_CFG_ATTR_NUM,	powerCfg_attrTbl,	zcl_powerCfg_register,	sensorDevice_powerCfgCb},
@@ -423,6 +442,7 @@ u8 SENSOR_DEVICE_CB_CLUSTER_NUM = (sizeof(g_sensorDeviceClusterList)/sizeof(g_se
  */
 #if NV_ENABLE
 	zcl_thermostatUICfgAttr_t zcl_nv_thermostatUiCfg;
+	zcl_onOffAttr_t zcl_nv_onOffAttr;
 #endif
 
 
@@ -510,6 +530,24 @@ nv_sts_t zcl_thermostatConfig_save(void)
 	return st;
 }
 
+nv_sts_t zcl_onOffState_save(void)
+{
+	nv_sts_t st = NV_SUCC;
+
+#ifdef ZCL_ON_OFF
+#if NV_ENABLE
+	if(memcmp(&zcl_nv_onOffAttr, &g_zcl_onOffAttr, sizeof(g_zcl_onOffAttr))) {
+		memcpy(&zcl_nv_onOffAttr, &g_zcl_onOffAttr, sizeof(g_zcl_onOffAttr));
+		zb_setPollRate(DEFAULT_POLL_RATE);
+		st = nv_flashWriteNew(1, NV_MODULE_ZCL,  NV_ITEM_ZCL_ON_OFF, sizeof(zcl_onOffAttr_t), (u8*)&zcl_nv_onOffAttr);
+	}
+#else
+	st = NV_ENABLE_PROTECT_ERROR;
+#endif
+#endif
+	return st;
+}
+
 /*********************************************************************
  * @fn      zcl_thermostatConfig_restore
  *
@@ -541,6 +579,26 @@ nv_sts_t zcl_thermostatConfig_restore(void)
 	}
 #endif
 
+#else
+	st = NV_ENABLE_PROTECT_ERROR;
+#endif
+#endif
+	return st;
+}
+
+nv_sts_t zcl_onOffState_restore(void)
+{
+	nv_sts_t st = NV_SUCC;
+
+#ifdef ZCL_ON_OFF
+#if NV_ENABLE
+	st = nv_flashReadNew(1, NV_MODULE_ZCL,  NV_ITEM_ZCL_ON_OFF, sizeof(zcl_nv_onOffAttr), (u8*)&zcl_nv_onOffAttr);
+
+	if(st == NV_SUCC){
+		memcpy(&g_zcl_onOffAttr, &zcl_nv_onOffAttr, sizeof(g_zcl_onOffAttr));
+	} else {
+		memcpy(&g_zcl_onOffAttr, &g_zcl_onOffAttrDefault, sizeof(g_zcl_onOffAttr));
+	}
 #else
 	st = NV_ENABLE_PROTECT_ERROR;
 #endif

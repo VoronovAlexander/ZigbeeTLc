@@ -39,45 +39,45 @@
 
 /* Board ID */
 //#define BOARD_LYWSD03MMC_B14		0 // number used for BLE firmware
-#define BOARD_MHO_C401				1 // SHTC3/SHT4X
+// #define BOARD_MHO_C401				1 // SHTC3/SHT4X
 //#define BOARD_CGG1				2
 //#define BOARD_LYWSD03MMC_B19		3 // number used for BLE firmware
 //#define BOARD_LYWSD03MMC_DEVBIS	3 // ver https://github.com/devbis/z03mmc
 //#define BOARD_LYWSD03MMC_B16		4 // number used for BLE firmware
 //#define BOARD_WATERMETER			4 // ver https://github.com/slacky1965/watermeter_zed
 //#define BOARD_LYWSD03MMC_B17		5 // number used for BLE firmware
-#define BOARD_CGDK2					6 //
+// #define BOARD_CGDK2					6 //
 //#define BOARD_CGG1N				7 // 2022
-#define BOARD_MHO_C401N				8 // 2022, SHTC3/SHT4X
+// #define BOARD_MHO_C401N				8 // 2022, SHTC3/SHT4X
 //#define BOARD_MJWSD05MMC			9
 //#define BOARD_LYWSD03MMC_B15		10 // number used for BLE firmware
 #define BOARD_LYWSD03MMC			10
-#define BOARD_MHO_C122				11
+// #define BOARD_MHO_C122				11
 // 12..15 - number used for BLE firmware - https://github.com/pvvx/ATC_MiThermometer
 //#define BOARD_TB03F				16 // DIY TB-03F-Kit (not yet published at the moment)
-#define BOARD_TS0201_TZ3000			17
+// #define BOARD_TS0201_TZ3000			17
 //#define BOARD_TNKS				18 // Water tank controller (not yet published at the moment)
 //#define BOARD_THB2				19 // https://github.com/pvvx/THB2
 //#define BOARD_BTH01				20 // https://github.com/pvvx/THB2
 //#define BOARD_TH05				21 // https://github.com/pvvx/THB2
-#define BOARD_TH03Z   				22 // ZigBee TH03Z
+// #define BOARD_TH03Z   				22 // ZigBee TH03Z
 //#define BOARD_THB1				23 // https://github.com/pvvx/THB2
 //#define BOARD_TH05D				24 // TH05_V1.3 https://github.com/pvvx/THB2
 //#define BOARD_TH05F				25 // TH05Y_V1.2 https://github.com/pvvx/THB2
 //#define BOARD_THB3				26 // https://github.com/pvvx/THB2
-#define BOARD_ZTH01   				27 // ZigBee ZTH01
-#define BOARD_ZTH02   				28 // ZigBee ZTH02
-//#define BOARD_PLM1 				29  // Tuya BLE Plant monitor ECF-SGS01-A rev1.3 (BT3L Tuya module)  (not yet published at the moment)
-#define BOARD_ZTH03   				30 // ZigBee TH03
-#define BOARD_LKTMZL02				31 // ZigBee LKTMZL02 LCD
+// #define BOARD_ZTH01   				27 // ZigBee ZTH01
+// #define BOARD_ZTH02   				28 // ZigBee ZTH02
+//#define BOARD_PLM1 				30  // Tuya BLE Plant monitor ECF-SGS01-A rev1.3 (BT3L Tuya module)  (not yet published at the mom3n0)
+// #define BOARD_ZTH03   				30 // ZigBee TH03
+// #define BOARD_LKTMZL02				31 // ZigBee LKTMZL02 LCD
 //#define BOARD_KEY2 				32 // KEY2(iSearching) https://github.com/pvvx/THB2
 //#define BOARD_ZTH05				33 // Tuya ZigBee TS0601_TZE204 and BLE
 //#define BOARD_PHY6252				34 // Tuya BLE (not yet published at the moment)
-#define BOARD_CB3S					35  // development is not completed!Tuya ZigBee "Smart Button" TS0041_TZ3000_fa9mlvja
-#define BOARD_HS09					36  // development is not completed! TS0201_TZ3000_1twfmkcc: Tuya ZigBee "Smart Humidity Sensor"
-#define BOARD_ZYZTH02				37 // Tuya ZY-ZTH02 Zigbee, 2 x AAA, SHT30/CHT832x
-#define BOARD_ZYZTH01				38  // development is not completed! Tuya ZY-ZTH02Pro Zigbee LCD, 2 x AAA, SHT30/CHT832x
-#define BOARD_ZG_227Z				39  // Zigbee ZG-227Z
+// #define BOARD_CB3S					35  // development is not completed!Tuya ZigBee "Smart Button" TS0041_TZ3000_fa9mlvja
+// #define BOARD_HS09					36  // development is not completed! TS0201_TZ3000_1twfmkcc: Tuya ZigBee "Smart Humidity Sensor"
+// #define BOARD_ZYZTH02				37 // Tuya ZY-ZTH02 Zigbee, 2 x AAA, SHT30/CHT832x
+// #define BOARD_ZYZTH01				38  // development is not completed! Tuya ZY-ZTH02Pro Zigbee LCD, 2 x AAA, SHT30/CHT832x
+// #define BOARD_ZG_227Z				39  // Zigbee ZG-227Z
 
 
 /* Board define */
@@ -107,10 +107,10 @@
 		#define CHIP_TYPE		TLSR_B91
 #endif
 
-#define APP_RELEASE				0x01	//BCD app release "0.1"
-#define APP_BUILD				0x24	//BCD app build "2.4"
 #define STACK_RELEASE			0x30	//BCD stack release 3.0
 #define STACK_BUILD				0x01	//BCD stack build 01
+#define APP_RELEASE				0x01	//BCD app release "0.1"
+#define APP_BUILD				0x39	//BCD app build "3.9"
 
 /*********************************************************************************************
  * During OTA upgrade, the upgraded device will check the rules of the following three fields.
